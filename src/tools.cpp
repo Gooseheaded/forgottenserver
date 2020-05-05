@@ -22,6 +22,8 @@
 #include "tools.h"
 #include "configmanager.h"
 
+#include <utility>
+
 extern ConfigManager g_config;
 
 void printXMLError(const std::string& where, const std::string& fileName, const pugi::xml_parse_result& result)
@@ -37,7 +39,7 @@ void printXMLError(const std::string& where, const std::string& fileName, const 
 	uint32_t currentLine = 1;
 	std::string line;
 
-	size_t offset = static_cast<size_t>(result.offset);
+	auto offset = static_cast<size_t>(result.offset);
 	size_t lineOffsetPosition = 0;
 	size_t index = 0;
 	size_t bytes;
@@ -1234,7 +1236,7 @@ int64_t OTSYS_TIME()
 
 SpellGroup_t stringToSpellGroup(std::string value)
 {
-	std::string tmpStr = asLowerCaseString(value);
+	std::string tmpStr = asLowerCaseString(std::move(value));
 	if (tmpStr == "attack" || tmpStr == "1") {
 		return SPELLGROUP_ATTACK;
 	} else if (tmpStr == "healing" || tmpStr == "2") {
